@@ -1,10 +1,9 @@
 ---
 name: User Story
 about: Template for creating user stories
-title: 'User Story: [Title]'
-labels: 'new'
-assignees: ''
-
+title: "User Story: [Title]"
+labels: "new"
+assignees: ""
 ---
 
 **As a** [role]  
@@ -12,9 +11,11 @@ assignees: ''
 **So that** [benefit]
 
 ### Details and Assumptions
-* [document what you know]
+
+- [document what you know]
 
 ### Acceptance Criteria
+
 ```gherkin
 Given [some context]
 When [certain action is taken]
