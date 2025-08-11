@@ -1,12 +1,10 @@
-import dotenv from 'dotenv'
-import express from 'express'
-import cors from 'cors'
-import pinoLogger from './logger.js'
-import path from 'path'
+require('dotenv').config()
+const express = require('express')
+const cors = require('cors')
+const pinoLogger = require('./logger')
+const path = require('path')
 
-import connectToDatabase from './models/db.js'
-
-dotenv.config()
+const connectToDatabase = require('./models/db')
 
 const app = express()
 app.use('*', cors())
@@ -21,14 +19,14 @@ connectToDatabase().then(() => {
 app.use(express.json())
 
 // Route files
-import secondChanceRoutes from './routes/secondChanceItemsRoutes.js'
-import authRoutes from './routes/authRoutes.js'
-import searchRoutes from './routes/searchRoutes.js'
-import pinoHttp from 'pino-http'
-import logger from './logger.js'
+const secondChanceRoutes = require('./routes/secondChanceItemsRoutes')
+const authRoutes = require('./routes/authRoutes')
+const searchRoutes = require('./routes/searchRoutes')
+const pinoHttp = require('pino-http')
+const logger = require('./logger')
 
 app.use(pinoHttp({ logger }))
-app.use(express.static(path.join(path.dirname(new URL(import.meta.url).pathname), 'public')))
+app.use(express.static(path.join(__dirname, 'public')))
 
 // Use Routes
 app.use('/api/secondchance/items', secondChanceRoutes)
@@ -36,12 +34,12 @@ app.use('/api/auth', authRoutes)
 app.use('/api/secondchance/search', searchRoutes)
 
 // Global Error Handler
-app.use((err, _req, res, _next) => {
+app.use((err, _, res) => {
   console.error(err)
   res.status(500).send('Internal Server Error')
 })
 
-app.get('/', (_req, res) => {
+app.get('/', (_, res) => {
   res.send('Inside the server')
 })
 
